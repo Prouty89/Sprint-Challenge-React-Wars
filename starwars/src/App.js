@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import data from './dataSwapi.js'
 import InfoCard from './components/InfoCard';
 import './App.css';
 
@@ -10,28 +11,25 @@ const App = () => {
   // Fetch characters from the star wars api in an effect hook. Remember, anytime you have a 
   // side effect in a component, you want to think about which state and/or props it should
   // sync up with, if any.
- const[people, setPeople] = useState([])
-
+ const[character, setCharacter] = useState([])
   useEffect(() => {
   axios
     .get(`https://swapi.co/api/people/`)
-    .then(response => {
-    const starWarsChar = response.data.results
-    setPeople(starWarsChar);
+    .then((response) => {
+    setCharacter(response.data);
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(error)
   })
 }, [])
 
-
-if (!people) {
+if (!data) {
   return <div className="loading">Loading...</div>;
 }
   return (
     <div className="App">
       <h1 className="Header">React Wars</h1>
-      <InfoCard starWarsChar limit ={5} />
+      <InfoCard characterData ={character} />
     </div>
   );
 }
